@@ -1,0 +1,93 @@
+xz (x, z)
+	Erstellt eine Position.
+	z.B. 300, 500
+
+pos (x, z)
+	Erstellt ebenfalls eine Position.
+	Ruft intern xz() auf.
+	Die Position wird mit FACTOR multipliziert...
+	z.B. 1, 2.5
+
+init_render_settings()
+	Setzt die Einstellungen für den Render
+
+	fps = 20			-> Bildrate
+	width = 640, height = 480	-> Fenstergröße
+	depth = 10000			-> Sichtdistanz (Performance)
+	skycolor = SKYBLUE		-> Hintergrundfarbe
+	light = False			-> Licht an/aus
+	ambient = 0.1			-> Ambientlichtstärke
+	wall_height = None		-> Wandhöhe (weglassen empfohlen, ansonsten kleiner als Fenstergröße)
+	border = False			-> Rand bei Quadern sichtbar machen (experimentell)
+	only_border = False		-> Nur Rand und keine Wände
+	border_width = 1		-> Randbreite
+
+
+init()
+	Die Initialisierungsfunktion
+
+	title = "PyGame 2,5D"		-> Titel des Fensters
+
+
+fps_tick()
+	FPSCLOCK.tick(FPS)
+
+
+player_move()
+	Der Spieler kann hiermit bewegt werden...
+
+	x, z				-> Die Bewegungsrichtung
+	collision_detection = False	-> Soll der Spieler mit Objekten kollidieren?
+
+
+player_set_position()
+	Hiermit kann der Spieler auf eine Position gesetzt werden...
+
+	xz				-> Position, siehe xz() oder pos()
+
+
+player_yaw_set()
+	Setzt die Rotation
+
+	alpha				-> Winkel (Gradians), muss eine Zahl sein, die mit 90 geteilt werden kann
+
+
+player_yaw_move()
+	Addiert zur Rotation
+
+	alpha				-> Winkel (Gradians)
+
+
+draw()
+	Zeichnet die Scene, in die der Spieler blickt.
+
+
+quit()
+	Beendet das Spiel
+
+
+scene_set_object()
+	Setzt ein Objekt in die Welt
+
+	pos = xz(0, 0)			-> Position (Mittelpunkt)
+	size = xz(50, 50)		-> Größe
+	color = WHITE			-> Farbe
+
+
+scene_set_light()
+	Setzt ein Licht in die Welt
+
+	pos = xz(0, 0)			-> Position
+	intensity = 100			-> Die Leuchtkraft in Entfernung (Radius)
+
+
+scene_is_object(pos)
+	Hiermit kann herausgefunden werden, ob auf der Position pos ein Objekt steht.
+	True falls Ja.
+	False falls Nein.
+
+
+main_loop()
+	Startet die Haubtschleife. Erweckt das Spiel zum Leben, sozusagen
+
+	update = default_update		-> Die Updatefunktion die Aufgerufen wird...

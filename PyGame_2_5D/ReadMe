@@ -1,0 +1,14 @@
+This is a 2.5D Render with some features.
+I was really interest in 3D graphics.
+The documentation is in German, sorry.
+I was to lazy to translate it.
+You need PyGame for Python3.
+If you use Ubuntu, you can execute pygame_install.sh script.
+How to test the demo:
+	Open in Terminal and type in: python3 demo.py
+
+For Windows:
+	Install Python 3 and pygame for Python 3
+	Then doppleclick on the file demo.py
+
+P.S. Sorry if my English is bad...
