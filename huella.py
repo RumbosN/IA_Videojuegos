@@ -27,7 +27,6 @@ class Huella(pygame.sprite.Sprite):
 		self.alpha_surface =  pygame.Surface((self.largo+porCiento(self.largo,40)+5, self.ancho), pygame.SRCALPHA, 32)  # the size of your rect
 		self.alpha_surface.set_alpha(128)
 
-
 	def mostrar(self, surface) :
 		#### Suela ####
 		# Datos Trapecio
@@ -57,13 +56,15 @@ class Huella(pygame.sprite.Sprite):
 		surface.blit(self.alpha_surface,(self.pos_ini_x,self.pos_ini_y))
 		
 	def update_color(self):
-		escala = 33
+		escala = 40
 		if self.color.a - escala > 0:
 			self.color.a -= escala
 			return 0
 		else:
 			return 1
 			
+
+
 class Personaje(pygame.sprite.Sprite):
 	def __init__(self,surface, px=100, py=100, orientation = 0):
 		pygame.sprite.Sprite.__init__(self)
@@ -76,9 +77,10 @@ class Personaje(pygame.sprite.Sprite):
 		self.ventana = surface
 		self.espera = 1
 		self.seg_pie = [2,False]
+		self.tiempo = {"med_sg":500, "sg":1000, "o":400}
 		self.quieto = [True														# estoy quieto
-									,pygame.time.get_ticks()//500		# el ultimo segundo en el que me movi
-									,pygame.time.get_ticks()//500] 	# ultimo seg en que se borro una huella
+									,pygame.time.get_ticks()//self.tiempo["o"]		# el ultimo segundo en el que me movi
+									,pygame.time.get_ticks()//self.tiempo["o"]] 	# ultimo seg en que se borro una huella
 		h_der = Huella(self.position[0], self.position[1] + self.dif_pie)
 		h_izq = Huella(self.position[0], self.position[1] - self.dif_pie)
 		for h in [h_izq,h_der]:
@@ -86,7 +88,7 @@ class Personaje(pygame.sprite.Sprite):
 			h.mostrar(surface)
 
 	def update(self):
-		tiempo = pygame.time.get_ticks()//500	
+		tiempo = pygame.time.get_ticks()//self.tiempo["o"]	
 		actualizar = 	self.quieto[0] and (tiempo - self.quieto[2] > ceil(self.espera*1.0/3))
 		quitados = 0
 		for i in range(len(self.huellas)):
@@ -104,13 +106,13 @@ class Personaje(pygame.sprite.Sprite):
 	def move_derecha(self, parado = False):
 		if not parado:
 			self.position[0] += 43
-			self.quieto[1] = pygame.time.get_ticks()//500 
+			self.quieto[1] = pygame.time.get_ticks()//self.tiempo["o"]
 			self.quieto[0] = False
 			self.seg_pie[1] = False
 		else:
 			self.seg_pie[1] = True
 
-		self.quieto[2] = pygame.time.get_ticks()//500
+		self.quieto[2] = pygame.time.get_ticks()//self.tiempo["o"]
 
 		if self.pie_izq :
 			dif = -1*self.dif_pie
@@ -158,10 +160,10 @@ while True:
 			if event.key == K_RIGHT:
 				p1.move_derecha()
 	else:
-		if not p1.quieto[0] and (pygame.time.get_ticks()//500 - p1.quieto[1] > p1.espera):
+		if not p1.quieto[0] and (pygame.time.get_ticks()//p1.tiempo["o"] - p1.quieto[1] > p1.espera):
 			p1.quieto[0] = True
 
-		elif not p1.seg_pie[1] and pygame.time.get_ticks()//500 - p1.quieto[1] > p1.seg_pie[0]:
+		elif not p1.seg_pie[1] and pygame.time.get_ticks()//p1.tiempo["o"] - p1.quieto[1] > p1.seg_pie[0]:
 			p1.move_derecha(True)
 
 
